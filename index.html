@@ -168,10 +168,11 @@
     </form>
 
     <script>
-        document.getElementById('control1Form').addEventListener('submit', function (e) {
+        <script>
+document.getElementById('control1Form').addEventListener('submit', function (e) {
     e.preventDefault(); // Prevent form refresh
     
-    // Capture the checkbox answers
+    // Capture the checkbox answers for frameworks
     const selectedFrameworks = [];
     document.querySelectorAll('input[name="q1"]:checked').forEach((checkbox) => {
         selectedFrameworks.push(checkbox.value);
@@ -184,12 +185,28 @@
     const q4 = document.getElementById('q4').value;
     const q4Comments = document.getElementById('q4Comments').value;
 
-    // Complete the alert to display all the selections
-    alert(`You selected:
-    Frameworks: ${selectedFrameworks.join(', ')}
-    Comments for Q1: ${q1Comments}
-    Q2: ${q2} with comments: ${q2Comments}
-    Q3: ${q3} with comments: ${q3Comments}
-    Q4: ${q4} with comments: ${q4Comments}`);
+    // Display the report after form submission
+    const reportDiv = document.createElement('div');
+    reportDiv.innerHTML = `
+        <h2>Your Report</h2>
+        <p><strong>Selected Frameworks:</strong> ${selectedFrameworks.join(', ')}</p>
+        <p><strong>Comments for Q1:</strong> ${q1Comments}</p>
+        <p><strong>Q2 - Inventory:</strong> ${q2}</p>
+        <p><strong>Comments for Q2:</strong> ${q2Comments}</p>
+        <p><strong>Q3 - Unauthorised Hardware:</strong> ${q3}</p>
+        <p><strong>Comments for Q3:</strong> ${q3Comments}</p>
+        <p><strong>Q4 - Onboarding Process:</strong> ${q4}</p>
+        <p><strong>Comments for Q4:</strong> ${q4Comments}</p>
+        
+        <h3>Advisories</h3>
+        <p><strong>For Frameworks:</strong> Based on your selected frameworks, consider implementing formal security controls for all listed frameworks.</p>
+        <p><strong>For Inventory:</strong> You may want to automate your inventory tracking to ensure real-time visibility of your assets.</p>
+        <p><strong>For Unauthorised Hardware:</strong> Enhance your response time by using automated tools to isolate unauthorised devices.</p>
+        <p><strong>For Onboarding:</strong> Consider documenting a formal onboarding process to ensure all new hardware is secured before deployment.</p>
+    `;
+    
+    // Append the report to the body or a specific element
+    document.body.appendChild(reportDiv);
 });
+</script>
 
