@@ -16,7 +16,10 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        h1, h2 {
+        h1 {
+            color: coral; /* ClearMap title in coral */
+        }
+        h2 {
             color: teal;
         }
         p {
@@ -26,13 +29,10 @@
             font-size: 14px;
             color: #333;
         }
-        select, textarea {
-            width: 100%;
-            padding: 10px;
+        input[type="checkbox"], select, textarea {
             margin-top: 5px;
             margin-bottom: 15px;
-            border: 1px solid teal;
-            border-radius: 4px;
+            padding: 10px;
         }
         button {
             padding: 10px 20px;
@@ -58,18 +58,17 @@
     <p>Please answer the following questions to help us assess your current security posture for CIS Control 1. You can also add comments to provide additional context.</p>
 
     <form id="control1Form">
-        <!-- Question 1 (with radio buttons for known frameworks) -->
+        <!-- Question 1 (with checkboxes for known frameworks) -->
         <div>
-            <label>Which of the following security frameworks have you implemented?</label><br>
-            <label><input type="radio" name="q1" value="Cyber Essentials"> Cyber Essentials</label><br>
-            <label><input type="radio" name="q1" value="NHS DSP Toolkit"> NHS DSP Toolkit</label><br>
-            <label><input type="radio" name="q1" value="Cyber Essentials Plus"> Cyber Essentials Plus</label><br>
-            <label><input type="radio" name="q1" value="PCI DSS"> PCI DSS</label><br>
-            <label><input type="radio" name="q1" value="CIS Controls"> CIS Controls</label><br>
-            <label><input type="radio" name="q1" value="NIST"> NIST</label><br>
-            <label><input type="radio" name="q1" value="ISO 27001"> ISO 27001</label><br>
-            <label><input type="radio" name="q1" value="DORA"> DORA (Digital Operational Resilience Act)</label><br>
-            <!-- Additional frameworks can be added here if needed -->
+            <label>Which of the following security frameworks have you implemented? (Select all that apply)</label><br>
+            <label><input type="checkbox" name="q1" value="Cyber Essentials"> Cyber Essentials</label><br>
+            <label><input type="checkbox" name="q1" value="NHS DSP Toolkit"> NHS DSP Toolkit</label><br>
+            <label><input type="checkbox" name="q1" value="Cyber Essentials Plus"> Cyber Essentials Plus</label><br>
+            <label><input type="checkbox" name="q1" value="PCI DSS"> PCI DSS</label><br>
+            <label><input type="checkbox" name="q1" value="CIS Controls"> CIS Controls</label><br>
+            <label><input type="checkbox" name="q1" value="NIST"> NIST</label><br>
+            <label><input type="checkbox" name="q1" value="ISO 27001"> ISO 27001</label><br>
+            <label><input type="checkbox" name="q1" value="DORA"> DORA (Digital Operational Resilience Act)</label><br>
         </div>
 
         <!-- Comments for Question 1 -->
@@ -105,14 +104,18 @@
         document.getElementById('control1Form').addEventListener('submit', function (e) {
             e.preventDefault(); // Prevent form refresh
             
-            // Capture the radio and dropdown answers
-            const q1 = document.querySelector('input[name="q1"]:checked').value;
+            // Capture the checkbox answers
+            const selectedFrameworks = [];
+            document.querySelectorAll('input[name="q1"]:checked').forEach((checkbox) => {
+                selectedFrameworks.push(checkbox.value);
+            });
             const q1Comments = document.getElementById('q1Comments').value;
             const q2 = document.getElementById('q2').value;
             const q2Comments = document.getElementById('q2Comments').value;
 
             alert(`You selected: 
-            Q1: ${q1} with comments: ${q1Comments}
+            Frameworks: ${selectedFrameworks.join(', ')} 
+            Comments for Q1: ${q1Comments}
             Q2: ${q2} with comments: ${q2Comments}`);
 
             // Add logic for report generation or handling the form data here
@@ -120,4 +123,5 @@
     </script>
 </body>
 </html>
+
 
