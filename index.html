@@ -16,11 +16,17 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        h1, h2 {
+            color: teal;
+        }
+        p {
+            color: #333;
+        }
         label {
             font-size: 14px;
             color: #333;
         }
-        select {
+        select, textarea {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -39,24 +45,43 @@
         button:hover {
             background-color: darkred;
         }
+        .comment {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Master heading and instructions -->
+    <h1>ClearMap Cybersecurity Gap Analysis</h1>
+    <h2>CIS Control 1: Inventory and Control of Enterprise Assets</h2>
+    <p>Please answer the following questions to help us assess your current security posture for CIS Control 1. You can also add comments to provide additional context.</p>
+
     <form id="control1Form">
+        <!-- Question 1 (with radio buttons for known frameworks) -->
         <div>
-            <label for="q1">What security frameworks have you implemented?</label>
-            <select id="q1">
-                <option value="1">We have not implemented any security frameworks.</option>
-                <option value="2">We have considered or are informally applying parts of a security framework.</option>
-                <option value="3">We have implemented a security framework, but it is not fully integrated.</option>
-                <option value="4">We have implemented and integrated one or more security frameworks.</option>
-                <option value="5">We have fully implemented and integrated multiple security frameworks.</option>
-            </select>
+            <label>Which of the following security frameworks have you implemented?</label><br>
+            <label><input type="radio" name="q1" value="Cyber Essentials"> Cyber Essentials</label><br>
+            <label><input type="radio" name="q1" value="NHS DSP Toolkit"> NHS DSP Toolkit</label><br>
+            <label><input type="radio" name="q1" value="Cyber Essentials Plus"> Cyber Essentials Plus</label><br>
+            <label><input type="radio" name="q1" value="PCI DSS"> PCI DSS</label><br>
+            <label><input type="radio" name="q1" value="CIS Controls"> CIS Controls</label><br>
+            <label><input type="radio" name="q1" value="NIST"> NIST</label><br>
+            <label><input type="radio" name="q1" value="ISO 27001"> ISO 27001</label><br>
+            <label><input type="radio" name="q1" value="DORA"> DORA (Digital Operational Resilience Act)</label><br>
+            <!-- Additional frameworks can be added here if needed -->
         </div>
 
+        <!-- Comments for Question 1 -->
+        <div class="comment">
+            <label for="q1Comments">Add comments or context to your answer (optional):</label>
+            <textarea id="q1Comments" name="q1Comments" placeholder="Provide additional context here..."></textarea>
+        </div>
+
+        <!-- Question 2 -->
         <div>
             <label for="q2">Do you maintain an updated inventory of all hardware assets?</label>
-            <select id="q2">
+            <select id="q2" name="q2">
                 <option value="1">We have no centralised inventory of hardware assets.</option>
                 <option value="2">We maintain a basic, informal list of some hardware assets.</option>
                 <option value="3">We maintain an inventory, but it is updated only during periodic audits.</option>
@@ -65,47 +90,34 @@
             </select>
         </div>
 
-        <div>
-            <label for="q3">Do you have policies for managing unauthorised hardware?</label>
-            <select id="q3">
-                <option value="1">We do not have processes to detect or manage unauthorised hardware.</option>
-                <option value="2">We have ad-hoc policies, but they are rarely enforced.</option>
-                <option value="3">We detect unauthorised hardware, but enforcement is inconsistent.</option>
-                <option value="4">We detect and respond to unauthorised hardware through automated tools.</option>
-                <option value="5">We have a fully automated system that detects, isolates, and removes unauthorised hardware in real-time.</option>
-            </select>
+        <!-- Comments for Question 2 -->
+        <div class="comment">
+            <label for="q2Comments">Add comments or context to your answer (optional):</label>
+            <textarea id="q2Comments" name="q2Comments" placeholder="Provide additional context here..."></textarea>
         </div>
 
-        <div>
-            <label for="q4">Do you have a documented onboarding process for hardware?</label>
-            <select id="q4">
-                <option value="1">There is no formal onboarding process for new hardware.</option>
-                <option value="2">New hardware is configured manually, with no formal documentation or security check.</option>
-                <option value="3">We have a partially documented process that includes security checks for new hardware.</option>
-                <option value="4">We have a documented and secure onboarding process for most hardware.</option>
-                <option value="5">We have a fully documented and enforced onboarding process for all hardware, including security checks.</option>
-            </select>
-        </div>
+        <!-- Add more questions and comments here -->
 
         <button type="submit">Submit</button>
     </form>
 
     <script>
         document.getElementById('control1Form').addEventListener('submit', function (e) {
-            e.preventDefault(); // Prevents the form from submitting and refreshing the page
-            const q1 = document.getElementById('q1').value;
+            e.preventDefault(); // Prevent form refresh
+            
+            // Capture the radio and dropdown answers
+            const q1 = document.querySelector('input[name="q1"]:checked').value;
+            const q1Comments = document.getElementById('q1Comments').value;
             const q2 = document.getElementById('q2').value;
-            const q3 = document.getElementById('q3').value;
-            const q4 = document.getElementById('q4').value;
+            const q2Comments = document.getElementById('q2Comments').value;
 
             alert(`You selected: 
-            Q1: ${q1}, 
-            Q2: ${q2}, 
-            Q3: ${q3}, 
-            Q4: ${q4}`);
+            Q1: ${q1} with comments: ${q1Comments}
+            Q2: ${q2} with comments: ${q2Comments}`);
 
-            // Here, you can add the logic to process the form, generate reports, etc.
+            // Add logic for report generation or handling the form data here
         });
     </script>
 </body>
 </html>
+
