@@ -29,10 +29,13 @@
             font-size: 14px;
             color: #333;
         }
-        input[type="checkbox"], select, textarea {
+        .input-field, input[type="checkbox"], select, textarea {
+            width: 100%; /* Make all inputs the same width */
             margin-top: 5px;
             margin-bottom: 15px;
             padding: 10px;
+            border: 1px solid teal;
+            border-radius: 4px;
         }
         button {
             padding: 10px 20px;
@@ -48,6 +51,9 @@
         .comment {
             margin-bottom: 20px;
         }
+        .question-number {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -60,7 +66,7 @@
     <form id="control1Form">
         <!-- Question 1.1 (with checkboxes for known frameworks) -->
         <div>
-            <label>1.1 Which of the following security frameworks have you implemented? (Select all that apply)</label><br>
+            <label><span class="question-number">1)</span> Which of the following security frameworks have you implemented? (Select all that apply)</label><br>
             <label><input type="checkbox" name="q1" value="Cyber Essentials"> Cyber Essentials</label><br>
             <label><input type="checkbox" name="q1" value="NHS DSP Toolkit"> NHS DSP Toolkit</label><br>
             <label><input type="checkbox" name="q1" value="Cyber Essentials Plus"> Cyber Essentials Plus</label><br>
@@ -69,18 +75,19 @@
             <label><input type="checkbox" name="q1" value="NIST"> NIST</label><br>
             <label><input type="checkbox" name="q1" value="ISO 27001"> ISO 27001</label><br>
             <label><input type="checkbox" name="q1" value="DORA"> DORA (Digital Operational Resilience Act)</label><br>
+            <label><input type="checkbox" name="q1" value="Other"> Other (please expand)</label>
         </div>
 
         <!-- Comments for Question 1.1 -->
         <div class="comment">
             <label for="q1Comments">Add comments or context to your answer (optional):</label>
-            <textarea id="q1Comments" name="q1Comments" placeholder="Provide additional context here..."></textarea>
+            <textarea id="q1Comments" name="q1Comments" class="input-field" placeholder="Provide additional context here..."></textarea>
         </div>
 
         <!-- Question 1.2 -->
         <div>
-            <label for="q2">1.2 Do you maintain an updated inventory of all hardware assets?</label>
-            <select id="q2" name="q2">
+            <label for="q2"><span class="question-number">2)</span> Do you maintain an updated inventory of all hardware assets?</label>
+            <select id="q2" name="q2" class="input-field">
                 <option value="1">We have no centralised inventory of hardware assets.</option>
                 <option value="2">We maintain a basic, informal list of some hardware assets.</option>
                 <option value="3">We maintain an inventory, but it is updated only during periodic audits.</option>
@@ -92,13 +99,13 @@
         <!-- Comments for Question 1.2 -->
         <div class="comment">
             <label for="q2Comments">Add comments or context to your answer (optional):</label>
-            <textarea id="q2Comments" name="q2Comments" placeholder="Provide additional context here..."></textarea>
+            <textarea id="q2Comments" name="q2Comments" class="input-field" placeholder="Provide additional context here..."></textarea>
         </div>
 
         <!-- Question 1.3 -->
         <div>
-            <label for="q3">1.3 Do you have policies for managing unauthorised hardware?</label>
-            <select id="q3" name="q3">
+            <label for="q3"><span class="question-number">3)</span> Do you have policies for managing unauthorised hardware?</label>
+            <select id="q3" name="q3" class="input-field">
                 <option value="1">We do not have processes to detect or manage unauthorised hardware.</option>
                 <option value="2">We have ad-hoc policies, but they are rarely enforced.</option>
                 <option value="3">We detect unauthorised hardware, but enforcement is inconsistent.</option>
@@ -110,13 +117,13 @@
         <!-- Comments for Question 1.3 -->
         <div class="comment">
             <label for="q3Comments">Add comments or context to your answer (optional):</label>
-            <textarea id="q3Comments" name="q3Comments" placeholder="Provide additional context here..."></textarea>
+            <textarea id="q3Comments" name="q3Comments" class="input-field" placeholder="Provide additional context here..."></textarea>
         </div>
 
         <!-- Question 1.4 -->
         <div>
-            <label for="q4">1.4 Do you have a documented onboarding process for hardware?</label>
-            <select id="q4" name="q4">
+            <label for="q4"><span class="question-number">4)</span> Do you have a documented onboarding process for hardware?</label>
+            <select id="q4" name="q4" class="input-field">
                 <option value="1">There is no formal onboarding process for new hardware.</option>
                 <option value="2">New hardware is configured manually, with no formal documentation or security check.</option>
                 <option value="3">We have a partially documented process that includes security checks for new hardware.</option>
@@ -128,7 +135,7 @@
         <!-- Comments for Question 1.4 -->
         <div class="comment">
             <label for="q4Comments">Add comments or context to your answer (optional):</label>
-            <textarea id="q4Comments" name="q4Comments" placeholder="Provide additional context here..."></textarea>
+            <textarea id="q4Comments" name="q4Comments" class="input-field" placeholder="Provide additional context here..."></textarea>
         </div>
 
         <button type="submit">Submit</button>
@@ -148,4 +155,18 @@
             const q2Comments = document.getElementById('q2Comments').value;
             const q3 = document.getElementById('q3').value;
             const q3Comments = document.getElementById('q3Comments').value;
-            const q4 = document.getElementById('q4').
+            const q4 = document.getElementById('q4').value;
+            const q4Comments = document.getElementById('q4Comments').value;
+
+            alert(`You selected: 
+            Frameworks: ${selectedFrameworks.join(', ')} 
+            Comments for Q1: ${q1Comments}
+            Q2: ${q2} with comments: ${q2Comments}
+            Q3: ${q3} with comments: ${q3Comments}
+            Q4: ${q4} with comments: ${q4Comments}`);
+
+            // Add logic for report generation or handling the form data here
+        });
+    </script>
+</body>
+</html>
