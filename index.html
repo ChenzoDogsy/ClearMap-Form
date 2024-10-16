@@ -74,6 +74,20 @@
             font-size: 6pt;
             color: #666;
         }
+        .report-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .report-section h3 {
+            margin-bottom: 10px;
+            color: teal;
+        }
+        .risk-color {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -162,86 +176,81 @@
             <textarea id="q4Comments" name="q4Comments" class="input-field" placeholder="Provide additional context here..."></textarea>
         </div>
 
-        <!-- Submit button -->
         <button type="submit">Submit</button>
     </form>
 
     <!-- Graph section -->
     <canvas id="radialChart" width="400" height="400"></canvas>
-<script>
-document.getElementById('control1Form').addEventListener('submit', function (e) {
-    e.preventDefault(); // Prevent form refresh
-    
-    // Capture the checkbox answers for frameworks
-    const selectedFrameworks = [];
-    document.querySelectorAll('input[name="q1"]:checked').forEach((checkbox) => {
-        selectedFrameworks.push(checkbox.value);
-    });
-    const q1Comments = document.getElementById('q1Comments').value;
-    const q2 = document.getElementById('q2').value;
-    const q2Comments = document.getElementById('q2Comments').value;
-    const q3 = document.getElementById('q3').value;
-    const q3Comments = document.getElementById('q3Comments').value;
-    const q4 = document.getElementById('q4').value;
-    const q4Comments = document.getElementById('q4Comments').value;
 
-    // Display the report after form submission
-    const reportDiv = document.createElement('div');
-    reportDiv.innerHTML = `
-        <h2>Your Report</h2>
-        <p><strong>Selected Frameworks:</strong> ${selectedFrameworks.join(', ')}</p>
-        <p><strong>Comments for Q1:</strong> ${q1Comments}</p>
-        <p><strong>Q2 - Inventory:</strong> ${q2}</p>
-        <p><strong>Comments for Q2:</strong> ${q2Comments}</p>
-        <p><strong>Q3 - Unauthorised Hardware:</strong> ${q3}</p>
-        <p><strong>Comments for Q3:</strong> ${q3Comments}</p>
-        <p><strong>Q4 - Onboarding Process:</strong> ${q4}</p>
-        <p><strong>Comments for Q4:</strong> ${q4Comments}</p>
-        
-        <h3>Advisories</h3>
-        <p><strong>For Frameworks:</strong> Based on your selected frameworks, consider implementing formal security controls for all listed frameworks.</p>
-        <p><strong>For Inventory:</strong> You may want to automate your inventory tracking to ensure real-time visibility of your assets.</p>
-        <p><strong>For Unauthorised Hardware:</strong> Enhance your response time by using automated tools to isolate unauthorised devices.</p>
-        <p><strong>For Onboarding:</strong> Consider documenting a formal onboarding process to ensure all new hardware is secured before deployment.</p>
-    `;
-    
-    // Append the report to the body
-    document.body.appendChild(reportDiv);
+    <script>
+    document.getElementById('control1Form').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent form refresh
 
-    // Generate graph data
-    const labels = ['Inventory', 'Unauthorised Hardware', 'Onboarding'];
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: 'Compliance Score',
-            data: [q2, q3, q4], // Data based on the user's selections
-            backgroundColor: ['#FF6384', '#FFCE56', '#36A2EB'],
-            borderColor: ['#FF6384', '#FFCE56', '#36A2EB'],
-            borderWidth: 1
-        }]
-    };
+        // Capture the checkbox answers for frameworks
+        const selectedFrameworks = [];
+        document.querySelectorAll('input[name="q1"]:checked').forEach((checkbox) => {
+            selectedFrameworks.push(checkbox.value);
+        });
+        const q1Comments = document.getElementById('q1Comments').value;
+        const q2 = document.getElementById('q2').value;
+        const q2Comments = document.getElementById('q2Comments').value;
+        const q3 = document.getElementById('q3').value;
+        const q3Comments = document.getElementById('q3Comments').value;
+        const q4 = document.getElementById('q4').value;
+        const q4Comments = document.getElementById('q4Comments').value;
 
-    // Chart configuration
-    const config = {
-        type: 'radar',
-        data: data,
-        options: {
-            scales: {
-                r: {
-                    min: 1,
-                    max: 5
+        // Display the report after form submission
+        const reportDiv = document.createElement('div');
+        reportDiv.classList.add('report-section');
+        reportDiv.innerHTML = `
+            <h3>Your Report</h3>
+            <p><strong>Selected Frameworks:</strong> ${selectedFrameworks.join(', ')}</p>
+            <p><strong>Comments for Q1:</strong> ${q1Comments}</p>
+            <h3>Advisories</h3>
+            <p><strong>For Frameworks:</strong> Based on your selected frameworks, consider implementing formal security controls for all listed frameworks.</p>
+            <p><strong>For Inventory:</strong> Automate your inventory tracking for real-time visibility.</p>
+            <p><strong>For Unauthorised Hardware:</strong> Implement faster detection with automated tools.</p>
+            <p><strong>For Onboarding:</strong> Establish formal security processes for hardware onboarding.</p>
+        `;
+        document.body.appendChild(reportDiv);
+
+        // Generate graph data
+        const data = [q2, q3, q4];
+        const colors = ['#FF0000', '#FF9900', '#00FF00']; // Red, Amber, Green for poor to good posture
+        const backgroundColor = data.map(score => colors[score - 1]);
+
+        const chartData = {
+            labels: ['Inventory', 'Unauthorised Hardware', 'Onboarding'],
+            datasets: [{
+                label: 'Compliance Score',
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: '#000',
+                borderWidth: 1
+            }]
+        };
+
+        // Chart configuration
+        const config = {
+            type: 'bar', // Bar chart for easier visual representation
+            data: chartData,
+            options: {
+                scales: {
+                    y: {
+                        min: 1,
+                        max: 5
+                    }
                 }
             }
-        }
-    };
+        };
 
-    // Render the chart
-    const radialChart = new Chart(
-        document.getElementById('radialChart'),
-        config
-    );
-});
-</script>
+        // Render the chart
+        const radialChart = new Chart(
+            document.getElementById('radialChart'),
+            config
+        );
+    });
+    </script>
+
 </body>
 </html>
-
