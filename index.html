@@ -15,9 +15,11 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
         }
         h1 {
-            color: coral; /* ClearMap title in coral */
+            color: coral;
         }
         h2 {
             color: teal;
@@ -28,22 +30,29 @@
         label {
             font-size: 14px;
             color: #333;
+            display: block;
+            margin-bottom: 10px;
         }
         .input-field, input[type="checkbox"], select, textarea {
-            width: 100%; /* Make all inputs the same width */
+            width: 95%; /* Adjusted for a cleaner look */
+            max-width: 600px; /* Limit field width */
             margin-top: 5px;
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid teal;
             border-radius: 4px;
+            box-sizing: border-box;
         }
         button {
-            padding: 10px 20px;
+            padding: 12px 30px;
             background-color: coral;
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 4px;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
         }
         button:hover {
             background-color: darkred;
@@ -53,6 +62,18 @@
         }
         .question-number {
             font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            /* Mobile adjustments */
+            form {
+                padding: 15px;
+            }
+            .input-field, select, textarea {
+                width: 100%; /* Full width for mobile */
+            }
+            button {
+                width: 100%; /* Full width button for mobile */
+            }
         }
     </style>
 </head>
@@ -66,7 +87,7 @@
     <form id="control1Form">
         <!-- Question 1.1 (with checkboxes for known frameworks) -->
         <div>
-            <label><span class="question-number">1)</span> Which of the following security frameworks have you implemented? (Select all that apply)</label><br>
+            <label><span class="question-number">1)</span> Which of the following security frameworks have you implemented? (Select all that apply)</label>
             <label><input type="checkbox" name="q1" value="Cyber Essentials"> Cyber Essentials</label><br>
             <label><input type="checkbox" name="q1" value="NHS DSP Toolkit"> NHS DSP Toolkit</label><br>
             <label><input type="checkbox" name="q1" value="Cyber Essentials Plus"> Cyber Essentials Plus</label><br>
@@ -153,20 +174,4 @@
             const q1Comments = document.getElementById('q1Comments').value;
             const q2 = document.getElementById('q2').value;
             const q2Comments = document.getElementById('q2Comments').value;
-            const q3 = document.getElementById('q3').value;
-            const q3Comments = document.getElementById('q3Comments').value;
-            const q4 = document.getElementById('q4').value;
-            const q4Comments = document.getElementById('q4Comments').value;
-
-            alert(`You selected: 
-            Frameworks: ${selectedFrameworks.join(', ')} 
-            Comments for Q1: ${q1Comments}
-            Q2: ${q2} with comments: ${q2Comments}
-            Q3: ${q3} with comments: ${q3Comments}
-            Q4: ${q4} with comments: ${q4Comments}`);
-
-            // Add logic for report generation or handling the form data here
-        });
-    </script>
-</body>
-</html>
+            const q3 = document
