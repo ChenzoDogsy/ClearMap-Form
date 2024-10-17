@@ -79,7 +79,7 @@
 <body>
 
     <!-- Version number -->
-    <div class="version-number">v14.0</div>
+    <div class="version-number">v15.0</div>
 
     <!-- Master heading and instructions -->
     <h1>ClearMap Cybersecurity Gap Analysis</h1>
@@ -169,25 +169,35 @@
     <canvas id="radialChart" width="400" height="400"></canvas>
 
     <script>
-    document.getElementById('control1Form').addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent form refresh
+  document.getElementById('control1Form').addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent form refresh
 
-        // Capture the checkbox answers for frameworks
-        const selectedFrameworks = [];
-        document.querySelectorAll('input[name="q1"]:checked').forEach((checkbox) => {
-            selectedFrameworks.push(checkbox.value);
-        });
-        const q1Comments = document.getElementById('q1Comments').value;
-        const q2 = document.getElementById('q2').value;
-        const q2Comments = document.getElementById('q2Comments').value;
-        const q3 = document.getElementById('q3').value;
-        const q3Comments = document.getElementById('q3Comments').value;
-        const q4 = document.getElementById('q4').value;
-        const q4Comments = document.getElementById('q4Comments').value;
+    // Capture the checkbox answers for frameworks
+    const selectedFrameworks = [];
+    document.querySelectorAll('input[name="q1"]:checked').forEach((checkbox) => {
+        selectedFrameworks.push(checkbox.value);
+    });
+    const q1Comments = document.getElementById('q1Comments').value;
+    const q2 = document.getElementById('q2').value;
+    const q2Comments = document.getElementById('q2Comments').value;
+    const q3 = document.getElementById('q3').value;
+    const q3Comments = document.getElementById('q3Comments').value;
+    const q4 = document.getElementById('q4').value;
+    const q4Comments = document.getElementById('q4Comments').value;
 
-        // Display the report after form submission
-        // Display the report after form submission
-function displayReport() {
+    // Add this: Calculate risk scores and call displayReport() and generateChart()
+    let riskScore2 = parseInt(q2); // Dropdown values are already 1-5
+    let riskScore3 = parseInt(q3);
+    let riskScore4 = parseInt(q4);
+
+    // Call the report and chart generation functions
+    displayReport(riskScore2, riskScore3, riskScore4, q2, q3, q4);
+    generateChart([riskScore2, riskScore3, riskScore4]);
+});
+
+
+            // Display the report after form submission
+function displayReport(riskScore2, riskScore3, riskScore4, q2, q3, q4) {
     const reportHTML = `
         <table>
           <thead>
@@ -200,7 +210,34 @@ function displayReport() {
             </tr>
           </thead>
           <tbody>
-            <tr style="background-color: ${getBackgroundColor(riskScore1)};">
+            <tr style="background-color: ${getBackgroundColor(riskScore2)};">
+              <td>${riskScore2}</td>
+              <td>Inventory Management</td>
+              <td>Track all assets with an automated tool</td>
+              <td>${q2}</td>
+              <td>Consider implementing a comprehensive tracking tool.</td>
+            </tr>
+            <tr style="background-color: ${getBackgroundColor(riskScore3)};">
+              <td>${riskScore3}</td>
+              <td>Unauthorised Hardware</td>
+              <td>Identify all unauthorised devices on the network</td>
+              <td>${q3}</td>
+              <td>Implement a scanning solution for better control.</td>
+            </tr>
+            <tr style="background-color: ${getBackgroundColor(riskScore4)};">
+              <td>${riskScore4}</td>
+              <td>Onboarding Process</td>
+              <td>Ensure proper onboarding of devices</td>
+              <td>${q4}</td>
+              <td>Improve the documentation and management of onboarding.</td>
+            </tr>
+          </tbody>
+        </table>
+    `;
+
+    // Insert the report into the page
+    document.getElementById("reportContainer").innerHTML = reportHTML;
+}
               <td>${riskScore1}</td> <!-- Replace dynamically -->
               <td>1.1 Inventory Tools</td>
               <td>A comprehensive, automated inventory tool must be in place to track all assets.</td>
@@ -244,20 +281,39 @@ function getBackgroundColor(score) {
 }
         // Generate graph data
         const data = [q2, q3, q4];
-        const colors = ['#FF0000', '#FF9900', '#00FF00']; // Red, Amber, Green for poor to good posture
-        const backgroundColor = data.map(score => colors[score - 1]);
+       function generateChart(data) {
+    const colors = ['#FF0000', '#FF9900', '#00FF00']; // Red, Amber, Green
+    const backgroundColor = data.map(score => colors[score - 1]);
 
-        const chartData = {
-            labels: ['Inventory', 'Unauthorised Hardware', 'Onboarding'],
-            datasets: [{
-                label: 'Compliance Score',
-                data: data,
-                backgroundColor: backgroundColor,
-                borderColor: '#000',
-                borderWidth: 1
-            }]
-        };
+    const chartData = {
+        labels: ['Inventory', 'Unauthorised Hardware', 'Onboarding'],
+        datasets: [{
+            label: 'Compliance Score',
+            data: data,
+            backgroundColor: backgroundColor,
+            borderColor: '#000',
+            borderWidth: 1
+        }]
+    };
 
+    const config = {
+        type: 'radar',
+        data: chartData,
+        options: {
+            scales: {
+                r: {
+                    min: 0,
+                    max: 5
+                }
+            }
+        }
+    };
+
+    const radialChart = new Chart(
+        document.getElementById('radialChart'),
+        config
+    );
+}
         // Chart configuration
         const config = {
             type: 'radar', // Radial chart as requested
@@ -278,6 +334,13 @@ function getBackgroundColor(score) {
             config
         );
     });
+
+function getBackgroundColor(score) {
+    if (score === 1) return "#FFCCCB"; // Bright red
+    if (score === 2) return "#FF5733"; // Red amber
+    if (score === 3) return "#FFC107"; // Amber
+    if (score === 4) return "#90EE90"; // Amber green
+    if (score === 5) return "#32CD32"; // Green
     </script>
 </body>
 </html>
