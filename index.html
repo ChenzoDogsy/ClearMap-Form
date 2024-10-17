@@ -32,71 +32,6 @@
             font-size: 14px;
             margin-bottom: 10px;
         }
-        .input-field, input[type="checkbox"], select, textarea {
-            width: 95%;
-            max-width: 600px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid teal;
-            border-radius: 4px;
-            color: #333;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 12px 30px;
-            background-color: coral;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 16px;
-            display: block;
-            margin: 20px auto;
-        }
-        button:hover {
-            background-color: darkred;
-        }
-        .comment {
-            margin-bottom: 20px;
-        }
-        .question-number {
-            font-weight: bold;
-        }
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIS Control 1 Form</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js for the graph -->
-    <style>
-        body {
-            font-family: Roboto, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: coral;
-        }
-        h2 {
-            color: teal;
-        }
-        p, label {
-            color: #333;
-        }
-        label {
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
         .input-field, select, textarea {
             width: 95%;
             max-width: 600px;
@@ -107,20 +42,6 @@
             border-radius: 4px;
             color: #333;
             box-sizing: border-box;
-        }
-        button {
-            padding: 12px 30px;
-            background-color: coral;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 16px;
-            display: block;
-            margin: 20px auto;
-        }
-        button:hover {
-            background-color: darkred;
         }
         .comment {
             margin-bottom: 20px;
@@ -141,7 +62,7 @@
             background-color: #FFCCCB; /* Red for "No" */
         }
         select.green-option {
-            background-color: #90EE90; /* Green for "Yes" */
+            background-color: #90EE90; /* Green for "Yes (please enter below)" */
         }
 
     </style>
@@ -161,48 +82,38 @@
         <!-- Dropdown Question: Are you compliant with one or more frameworks? -->
         <div>
             <label for="frameworkCompliance"><span class="question-number">1)</span> Are you compliant with one or more cybersecurity frameworks such as Cyber Essentials, NIST, ISO 27001, etc.?</label>
-            <select id="frameworkCompliance" name="frameworkCompliance" class="input-field" onchange="setDropdownColor()">
+            <select id="frameworkCompliance" name="frameworkCompliance" class="input-field" onchange="toggleFrameworkDetails()">
                 <option value="" disabled selected>Select an option</option>
                 <option value="No" class="red-option">No</option>
-                <option value="Yes" class="green-option">Yes</option>
+                <option value="Yes" class="green-option">Yes (please enter below)</option>
             </select>
         </div>
 
         <!-- Text box to list frameworks if the answer is "Yes" -->
-        <div class="comment">
-            <label for="frameworkDetails">If "Yes", please list the frameworks:</label>
+        <div class="comment" id="frameworkDetailsContainer" style="display:none;">
+            <label for="frameworkDetails">Please list the frameworks:</label>
             <textarea id="frameworkDetails" name="frameworkDetails" class="input-field" placeholder="List your frameworks here..."></textarea>
         </div>
 
-        <button type="submit">Submit</button>
     </form>
-    </style>
-</head>
-<body>
 
-    <!-- Version number -->
-    <div class="version-number">v20.0</div>
+    <script>
+    // Function to show/hide the framework details textbox based on dropdown selection
+    function toggleFrameworkDetails() {
+        var dropdown = document.getElementById("frameworkCompliance");
+        var detailsContainer = document.getElementById("frameworkDetailsContainer");
 
-    <!-- Master heading and instructions -->
-    <h1>ClearMap Cybersecurity Gap Analysis</h1>
-    <h2>CIS Control 1: Inventory and Control of Enterprise Assets</h2>
-    <p>Please answer the following questions to help us assess your current security posture for CIS Control 1. You can also add comments to provide additional context.</p>
+        if (dropdown.value === "Yes") {
+            detailsContainer.style.display = "block"; // Show the text box when "Yes" is selected
+        } else {
+            detailsContainer.style.display = "none"; // Hide it if "No" is selected
+        }
+    }
 
-    <!-- The form structure -->
-    <form id="control1Form">
-        <!-- Question 1.1 (with checkboxes for known frameworks) -->
-        <div class="checkbox-group">
-            <label><span class="question-number">1)</span> Which of the following security frameworks have you implemented? (Select all that apply)</label>
-            <label><input type="checkbox" name="q1" value="Cyber Essentials"> Cyber Essentials</label>
-            <label><input type="checkbox" name="q1" value="NHS DSP Toolkit"> NHS DSP Toolkit</label>
-            <label><input type="checkbox" name="q1" value="Cyber Essentials Plus"> Cyber Essentials Plus</label>
-            <label><input type="checkbox" name="q1" value="PCI DSS"> PCI DSS</label>
-            <label><input type="checkbox" name="q1" value="CIS Controls"> CIS Controls</label>
-            <label><input type="checkbox" name="q1" value="NIST"> NIST</label>
-            <label><input type="checkbox" name="q1" value="ISO 27001"> ISO 27001</label>
-            <label><input type="checkbox" name="q1" value="DORA"> DORA (Digital Operational Resilience Act)</label>
-            <label><input type="checkbox" name="q1" value="Other"> Other (please expand)</label>
-        </div>
+    </script>
+</body>
+</html>
+
 
         <!-- Comments for Question 1.1 -->
         <div class="comment">
