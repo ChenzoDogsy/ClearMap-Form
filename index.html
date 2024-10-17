@@ -19,12 +19,12 @@
             max-width: 800px;
             margin: 0 auto;
         }
-        h1, h2 {
+        h1 {
             color: coral;
         }
-        h3 {
-            color: teal;
-            margin-bottom: 15px;
+        h2, h3 {
+            color: coral;
+            margin-bottom: 20px;
         }
         p, label {
             color: #333;
@@ -34,8 +34,7 @@
             margin-bottom: 10px;
         }
         .input-field, select, textarea {
-            width: 95%;
-            max-width: 600px;
+            width: 100%; /* Ensure equal length for all input boxes */
             margin-top: 5px;
             margin-bottom: 15px;
             padding: 10px;
@@ -43,9 +42,6 @@
             border-radius: 4px;
             color: #333;
             box-sizing: border-box;
-        }
-        .form-section {
-            margin-bottom: 40px;
         }
         button {
             padding: 12px 30px;
@@ -61,11 +57,8 @@
         button:hover {
             background-color: darkred;
         }
-        .comment {
-            margin-bottom: 20px;
-        }
-        .question-number {
-            font-weight: bold;
+        .form-section {
+            margin-bottom: 30px;
         }
         .version-number {
             position: absolute;
@@ -74,26 +67,18 @@
             font-size: 6pt;
             color: #666;
         }
-
-        /* Custom dropdown styles */
-        select.red-option {
-            background-color: #FFCCCB; /* Red for "No" */
-        }
-        select.green-option {
-            background-color: #90EE90; /* Green for "Yes (please enter below)" */
-        }
     </style>
 </head>
 <body>
 
     <!-- Version number -->
-    <div class="version-number">v23.0</div>
+    <div class="version-number">v24.0</div>
 
     <!-- Master heading -->
     <h1>ClearMap Cybersecurity Gap Analysis</h1>
 
     <!-- General Information Section -->
-    <h3>General Information</h3>
+    <h2>General Information</h2>
     <form id="control1Form">
 
         <div class="form-section">
@@ -140,44 +125,10 @@
             <textarea id="frameworkDetails" name="frameworkDetails" class="input-field" placeholder="List your frameworks here..."></textarea>
         </div>
 
-        <!-- Control 1 Questions -->
-        <div class="form-section">
-            <label for="q2"><span class="question-number">2)</span> Do you maintain an updated inventory of all hardware assets?</label>
-            <select id="q2" name="q2" class="input-field">
-                <option value="1">We have no centralised inventory of hardware assets.</option>
-                <option value="2">We maintain a basic, informal list of some hardware assets.</option>
-                <option value="3">We maintain an inventory, but it is updated only during periodic audits.</option>
-                <option value="4">We maintain an automated, centralised hardware inventory.</option>
-                <option value="5">We have a comprehensive, automated inventory that tracks all hardware assets in real-time.</option>
-            </select>
-        </div>
-
-        <div class="form-section">
-            <label for="q3"><span class="question-number">3)</span> Do you have policies for managing unauthorised hardware?</label>
-            <select id="q3" name="q3" class="input-field">
-                <option value="1">We do not have processes to detect or manage unauthorised hardware.</option>
-                <option value="2">We have ad-hoc policies, but they are rarely enforced.</option>
-                <option value="3">We detect unauthorised hardware, but enforcement is inconsistent.</option>
-                <option value="4">We detect and respond to unauthorised hardware through automated tools.</option>
-                <option value="5">We have a fully automated system that detects, isolates, and removes unauthorised hardware in real-time.</option>
-            </select>
-        </div>
-
-        <div class="form-section">
-            <label for="q4"><span class="question-number">4)</span> Do you have a documented onboarding process for hardware?</label>
-            <select id="q4" name="q4" class="input-field">
-                <option value="1">There is no formal onboarding process for new hardware.</option>
-                <option value="2">New hardware is configured manually, with no formal documentation or security check.</option>
-                <option value="3">We have a partially documented process that includes security checks for new hardware.</option>
-                <option value="4">We have a documented and secure onboarding process for most hardware.</option>
-                <option value="5">We have a fully documented and enforced onboarding process for all hardware, including security checks.</option>
-            </select>
-        </div>
+        <!-- Next Question Button -->
+        <button type="button" onclick="nextQuestion()">Next Question</button>
 
     </form>
-
-    <!-- Placeholder for the graph -->
-    <canvas id="radialChart" width="400" height="400"></canvas>
 
     <script>
     // Function to show/hide the framework details textbox based on dropdown selection
@@ -192,10 +143,8 @@
         }
     }
 
-    document.getElementById('control1Form').addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent form refresh
-
-        // Capture the form values (General Info + Control 1)
+    function nextQuestion() {
+        // Get all the input values (General Info + Control 1)
         const name = document.getElementById('name').value;
         const companyName = document.getElementById('companyName').value;
         const numberOfUsers = document.getElementById('numberOfUsers').value;
@@ -203,10 +152,8 @@
         const gapInterest = document.getElementById('gapInterest').value;
         const frameworkCompliance = document.getElementById('frameworkCompliance').value;
         const frameworkDetails = document.getElementById('frameworkDetails').value;
-        const q2 = document.getElementById('q2').value;
-        const q3 = document.getElementById('q3').value;
-        const q4 = document.getElementById('q4').value;
 
+        // For now, just log them to see if everything is captured properly
         console.log("Name:", name);
         console.log("Company Name:", companyName);
         console.log("Number of Users:", numberOfUsers);
@@ -214,14 +161,11 @@
         console.log("Gap Interest:", gapInterest);
         console.log("Framework Compliance:", frameworkCompliance);
         console.log("Framework Details:", frameworkDetails);
-        console.log("Inventory Score:", q2);
-        console.log("Unauthorised Hardware Score:", q3);
-        console.log("Onboarding Score:", q4);
 
-        // Display a thank you message
-        alert("Thank you for your submission! We are working on your report.");
-    });
-
+        // Example of how we could pass data or store it
+        alert("Moving to the next question. Your data will be saved.");
+        // We will later implement the actual move to the next section of questions
+    }
     </script>
 </body>
 </html>
