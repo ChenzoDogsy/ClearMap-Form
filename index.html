@@ -79,7 +79,7 @@
 <body>
 
     <!-- Version number -->
-    <div class="version-number">v16.0</div>
+    <div class="version-number">v17.0</div>
 
     <!-- Master heading and instructions -->
     <h1>ClearMap Cybersecurity Gap Analysis</h1>
@@ -199,47 +199,64 @@
     });
 
     // Display the report after form submission
-    function displayReport(riskScore2, riskScore3, riskScore4, q2, q3, q4) {
-        const reportHTML = `
-            <table>
-              <thead>
-                <tr>
-                  <th>Risk Score</th>
-                  <th>Area</th>
-                  <th>Requirement</th>
-                  <th>Current Position</th>
-                  <th>Advisory</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="background-color: ${getBackgroundColor(riskScore2)};">
-                  <td>${riskScore2}</td>
-                  <td>Inventory Management</td>
-                  <td>Track all assets with an automated tool</td>
-                  <td>${q2}</td>
-                  <td>Consider implementing a comprehensive tracking tool.</td>
-                </tr>
-                <tr style="background-color: ${getBackgroundColor(riskScore3)};">
-                  <td>${riskScore3}</td>
-                  <td>Unauthorised Hardware</td>
-                  <td>Identify all unauthorised devices on the network</td>
-                  <td>${q3}</td>
-                  <td>Implement a scanning solution for better control.</td>
-                </tr>
-                <tr style="background-color: ${getBackgroundColor(riskScore4)};">
-                  <td>${riskScore4}</td>
-                  <td>Onboarding Process</td>
-                  <td>Ensure proper onboarding of devices</td>
-                  <td>${q4}</td>
-                  <td>Improve the documentation and management of onboarding.</td>
-                </tr>
-              </tbody>
-            </table>
-        `;
+   function displayReport(riskScore2, riskScore3, riskScore4, q2, q3, q4) {
+    const reportHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Risk Score</th>
+              <th>Area</th>
+              <th>Requirement</th>
+              <th>Current Position</th>
+              <th>Advisory</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: ${getBackgroundColor(riskScore2)};">
+              <td>${riskScore2}</td>
+              <td>Inventory Management</td>
+              <td>A comprehensive, automated inventory tool must be in place to track all assets.</td>
+              <td>${q2}</td>
+              <td>${generateAdvisory(riskScore2, 'inventory')}</td>
+            </tr>
+            <tr style="background-color: ${getBackgroundColor(riskScore3)};">
+              <td>${riskScore3}</td>
+              <td>Unauthorised Hardware</td>
+              <td>All enterprise assets should be clearly identified and managed.</td>
+              <td>${q3}</td>
+              <td>${generateAdvisory(riskScore3, 'hardware')}</td>
+            </tr>
+            <tr style="background-color: ${getBackgroundColor(riskScore4)};">
+              <td>${riskScore4}</td>
+              <td>Onboarding Process</td>
+              <td>A secure, documented onboarding process must be enforced for all hardware assets.</td>
+              <td>${q4}</td>
+              <td>${generateAdvisory(riskScore4, 'onboarding')}</td>
+            </tr>
+          </tbody>
+        </table>
+    `;
 
-        // Insert the report into the page
-        document.getElementById("reportContainer").innerHTML = reportHTML;
+    document.getElementById("reportContainer").innerHTML = reportHTML;
+}
+
+// Function to generate in-depth advisories based on the risk score
+function generateAdvisory(score, area) {
+    let advisory = '';
+    if (score === 1) {
+        advisory = `You currently have significant gaps in ${area}. Immediate action is needed. Consider adopting industry-standard tools to manage ${area} effectively and reduce risk.`;
+    } else if (score === 2) {
+        advisory = `Your ${area} process needs improvement. Consider implementing automated tools to track and manage assets more efficiently, and ensure that they are regularly updated.`;
+    } else if (score === 3) {
+        advisory = `You are on the right path with your ${area} management, but there is room for improvement. Periodic reviews and better tools will help keep the system robust.`;
+    } else if (score === 4) {
+        advisory = `Your ${area} management is solid, but there are some areas where automation or additional monitoring tools could help further strengthen your security.`;
+    } else if (score === 5) {
+        advisory = `You have excellent ${area} management. Continue monitoring and maintaining your current system to ensure it remains effective.`;
     }
+    return advisory;
+}
+
 
     // Function to get background color based on risk score
     function getBackgroundColor(score) {
@@ -252,32 +269,39 @@
 
     // Generate the radar chart based on the risk scores
     function generateChart(data) {
-        const colors = ['#FF0000', '#FF9900', '#00FF00']; // Red, Amber, Green
-        const backgroundColor = data.map(score => colors[score - 1]);
+    // Colors from red (low score) to green (high score)
+    const colors = data.map(score => getBackgroundColor(score)); 
 
-        const chartData = {
-            labels: ['Inventory', 'Unauthorised Hardware', 'Onboarding'],
-            datasets: [{
-                label: 'Compliance Score',
-                data: data,
-                backgroundColor: backgroundColor,
-                borderColor: '#000',
-                borderWidth: 1
-            }]
-        };
+    const chartData = {
+        labels: ['Inventory', 'Unauthorised Hardware', 'Onboarding'],
+        datasets: [{
+            label: 'Compliance Score',
+            data: data,
+            backgroundColor: colors, // Apply different colors per data point
+            borderColor: '#000',
+            borderWidth: 1
+        }]
+    };
 
-        const config = {
-            type: 'radar',
-            data: chartData,
-            options: {
-                scales: {
-                    r: {
-                        min: 0,
-                        max: 5
-                    }
+    const config = {
+        type: 'radar',
+        data: chartData,
+        options: {
+            scales: {
+                r: {
+                    min: 0,
+                    max: 5
                 }
             }
-        };
+        }
+    };
+
+    const radialChart = new Chart(
+        document.getElementById('radialChart'),
+        config
+    );
+}
+
 
         const radialChart = new Chart(
             document.getElementById('radialChart'),
