@@ -64,13 +64,20 @@
             font-weight: bold;
         }
         .checkbox-group {
-    text-align: left; /* Ensure the entire group is left-aligned */
+    text-align: left;
+    margin: 0 auto; /* Ensures the group stays centered in the form if needed */
 }
 
 .checkbox-group label {
     display: block;
     margin-left: 0;
-    text-align: left; /* Left-align the text inside the labels */
+    text-align: left;
+    padding-left: 0; /* Ensures no padding pushes content */
+}
+
+input[type="checkbox"] {
+    margin-right: 10px; /* Adds space between the checkbox and the label text */
+    vertical-align: middle; /* Ensures the checkbox aligns correctly with the label text */
 }
 
         .version-number {
@@ -85,7 +92,7 @@
 <body>
 
     <!-- Version number -->
-    <div class="version-number">v18.0</div>
+    <div class="version-number">v19.0</div>
 
     <!-- Master heading and instructions -->
     <h1>ClearMap Cybersecurity Gap Analysis</h1>
