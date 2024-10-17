@@ -63,25 +63,71 @@
         .question-number {
             font-weight: bold;
         }
-        .checkbox-group {
-    display: flex;         /* This will align items horizontally */
-    flex-direction: column; /* Forces the checkboxes to stack vertically */
-    align-items: flex-start; /* Aligns everything to the left */
-    margin: 0;              /* Ensures no auto-centering happens */
-}
-
-.checkbox-group label {
-    margin-left: 0;
-    padding-left: 0;
-    text-align: left;
-}
-
-input[type="checkbox"] {
-    margin-right: 10px; /* Adds space between the checkbox and the label text */
-    vertical-align: middle; /* Ensures the checkbox aligns with the label text */
-}
-
-
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIS Control 1 Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js for the graph -->
+    <style>
+        body {
+            font-family: Roboto, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: coral;
+        }
+        h2 {
+            color: teal;
+        }
+        p, label {
+            color: #333;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .input-field, select, textarea {
+            width: 95%;
+            max-width: 600px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid teal;
+            border-radius: 4px;
+            color: #333;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 12px 30px;
+            background-color: coral;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        .comment {
+            margin-bottom: 20px;
+        }
+        .question-number {
+            font-weight: bold;
+        }
         .version-number {
             position: absolute;
             top: 10px;
@@ -89,6 +135,47 @@ input[type="checkbox"] {
             font-size: 6pt;
             color: #666;
         }
+
+        /* Custom dropdown styles */
+        select.red-option {
+            background-color: #FFCCCB; /* Red for "No" */
+        }
+        select.green-option {
+            background-color: #90EE90; /* Green for "Yes" */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Version number -->
+    <div class="version-number">v21.0</div>
+
+    <!-- Master heading and instructions -->
+    <h1>ClearMap Cybersecurity Gap Analysis</h1>
+    <h2>CIS Control 1: Inventory and Control of Enterprise Assets</h2>
+    <p>Please answer the following questions to help us assess your current security posture for CIS Control 1. You can also add comments to provide additional context.</p>
+
+    <!-- The form structure -->
+    <form id="control1Form">
+        <!-- Dropdown Question: Are you compliant with one or more frameworks? -->
+        <div>
+            <label for="frameworkCompliance"><span class="question-number">1)</span> Are you compliant with one or more cybersecurity frameworks such as Cyber Essentials, NIST, ISO 27001, etc.?</label>
+            <select id="frameworkCompliance" name="frameworkCompliance" class="input-field" onchange="setDropdownColor()">
+                <option value="" disabled selected>Select an option</option>
+                <option value="No" class="red-option">No</option>
+                <option value="Yes" class="green-option">Yes</option>
+            </select>
+        </div>
+
+        <!-- Text box to list frameworks if the answer is "Yes" -->
+        <div class="comment">
+            <label for="frameworkDetails">If "Yes", please list the frameworks:</label>
+            <textarea id="frameworkDetails" name="frameworkDetails" class="input-field" placeholder="List your frameworks here..."></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
     </style>
 </head>
 <body>
@@ -183,18 +270,28 @@ input[type="checkbox"] {
     <!-- Placeholder for the report -->
     <div id="reportContainer"></div>
 
-    <!-- Graph section -->
+   <!-- Graph section -->
     <canvas id="radialChart" width="400" height="400"></canvas>
 
     <script>
+    // Function to change the background color of the dropdown based on the selected value
+    function setDropdownColor() {
+        var dropdown = document.getElementById("frameworkCompliance");
+        if (dropdown.value === "No") {
+            dropdown.classList.remove("green-option");
+            dropdown.classList.add("red-option");
+        } else if (dropdown.value === "Yes") {
+            dropdown.classList.remove("red-option");
+            dropdown.classList.add("green-option");
+        }
+    }
+
     document.getElementById('control1Form').addEventListener('submit', function (e) {
         e.preventDefault(); // Prevent form refresh
 
-        // Capture the checkbox answers for frameworks
-        const selectedFrameworks = [];
-        document.querySelectorAll('input[name="q1"]:checked').forEach((checkbox) => {
-            selectedFrameworks.push(checkbox.value);
-        });
+        // Capture the dropdown answer for frameworks
+        const frameworkCompliance = document.getElementById('frameworkCompliance').value;
+        const frameworkDetails = document.getElementById('frameworkDetails').value;
         const q1Comments = document.getElementById('q1Comments').value;
         const q2 = document.getElementById('q2').value;
         const q2Comments = document.getElementById('q2Comments').value;
@@ -255,7 +352,11 @@ input[type="checkbox"] {
         document.getElementById("reportContainer").innerHTML = reportHTML;
     }
 
-    // Function to generate in-depth advisories based on the risk score
+        // Example to log or display the data, you can use these variables in your report
+        console.log("Framework Compliance:", frameworkCompliance);
+        console.log("Framework Details:", frameworkDetails);
+    
+// Function to generate in-depth advisories based on the risk score
     function generateAdvisory(score, area) {
         let advisory = '';
         if (score === 1) {
