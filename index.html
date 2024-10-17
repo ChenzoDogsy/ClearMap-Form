@@ -88,7 +88,7 @@
 <body>
 
     <!-- Version number -->
-    <div class="version-number">v25.1</div>
+    <div class="version-number">v26.0</div>
 
     <!-- Progress bar -->
     <div class="progress-container">
@@ -156,6 +156,8 @@
                 <option value="4">We maintain an automated, centralised hardware inventory.</option>
                 <option value="5">We have a comprehensive, automated inventory that tracks all hardware assets in real-time.</option>
             </select>
+            <!-- Comments box -->
+            <textarea id="q2Comments" name="q2Comments" class="input-field" placeholder="Add comments or context here (optional)..."></textarea>
         </div>
 
         <div class="form-section">
@@ -167,6 +169,8 @@
                 <option value="4">We detect and respond to unauthorised hardware through automated tools.</option>
                 <option value="5">We have a fully automated system that detects, isolates, and removes unauthorised hardware in real-time.</option>
             </select>
+            <!-- Comments box -->
+            <textarea id="q3Comments" name="q3Comments" class="input-field" placeholder="Add comments or context here (optional)..."></textarea>
         </div>
 
         <div class="form-section">
@@ -178,6 +182,8 @@
                 <option value="4">We have a documented and secure onboarding process for most hardware.</option>
                 <option value="5">We have a fully documented and enforced onboarding process for all hardware, including security checks.</option>
             </select>
+            <!-- Comments box -->
+            <textarea id="q4Comments" name="q4Comments" class="input-field" placeholder="Add comments or context here (optional)..."></textarea>
         </div>
 
         <!-- Next Control Button -->
@@ -191,7 +197,7 @@
         var dropdown = document.getElementById("frameworkCompliance");
         var detailsContainer = document.getElementById("frameworkDetailsContainer");
 
-        if (dropdown.value === "Yes") {
+         if (dropdown.value === "Yes") {
             detailsContainer.style.display = "block"; // Show the text box when "Yes" is selected
         } else {
             detailsContainer.style.display = "none"; // Hide it if "No" is selected
@@ -199,10 +205,14 @@
     }
 
     function nextControl() {
-        // Update progress bar
+        // Update progress bar based on the percentage of completed controls
         var progressBar = document.getElementById("progressBar");
-        progressBar.style.width = "20%"; // Increase progress bar percentage
-        progressBar.innerHTML = "20%"; // Update progress bar text
+        var currentProgress = parseInt(progressBar.style.width); // Get current percentage
+        var newProgress = currentProgress + 10; // Increase by 10% for each control
+        if (newProgress <= 100) {
+            progressBar.style.width = newProgress + "%"; // Update the progress bar width
+            progressBar.innerHTML = newProgress + "%"; // Update the progress bar text
+        }
 
         // Capture and log form data
         const name = document.getElementById('name').value;
@@ -213,10 +223,13 @@
         const frameworkCompliance = document.getElementById('frameworkCompliance').value;
         const frameworkDetails = document.getElementById('frameworkDetails').value;
         const q2 = document.getElementById('q2').value;
+        const q2Comments = document.getElementById('q2Comments').value;
         const q3 = document.getElementById('q3').value;
+        const q3Comments = document.getElementById('q3Comments').value;
         const q4 = document.getElementById('q4').value;
+        const q4Comments = document.getElementById('q4Comments').value;
 
-        // For now, just log them to see if everything is captured properly
+        // Log data to console for now (you can replace this with actual submission code)
         console.log("Name:", name);
         console.log("Company Name:", companyName);
         console.log("Number of Users:", numberOfUsers);
@@ -225,12 +238,15 @@
         console.log("Framework Compliance:", frameworkCompliance);
         console.log("Framework Details:", frameworkDetails);
         console.log("Inventory Score:", q2);
+        console.log("Inventory Comments:", q2Comments);
         console.log("Unauthorised Hardware Score:", q3);
+        console.log("Unauthorised Hardware Comments:", q3Comments);
         console.log("Onboarding Score:", q4);
+        console.log("Onboarding Comments:", q4Comments);
 
-        // Example of how we could pass data or store it
+        // Example of alert for next control (in actual use, this could navigate to the next control section)
         alert("Moving to the next control. Your data will be saved.");
-        // We will later implement the actual move to the next section of controls
+        // You can add redirection or form submission code here later
     }
     </script>
 </body>
