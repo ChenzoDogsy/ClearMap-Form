@@ -204,6 +204,10 @@
         }
     }
 
+    <!-- Next Control Button -->
+<button type="button" onclick="nextControl()">Next Control</button>
+
+<script>
     function nextControl() {
         // Update progress bar based on the percentage of completed controls
         var progressBar = document.getElementById("progressBar");
@@ -213,6 +217,43 @@
             progressBar.style.width = newProgress + "%"; // Update the progress bar width
             progressBar.innerHTML = newProgress + "%"; // Update the progress bar text
         }
+
+        // Capture and log form data (you can replace this with actual submission code)
+        const name = document.getElementById('name').value;
+        const companyName = document.getElementById('companyName').value;
+        const numberOfUsers = document.getElementById('numberOfUsers').value;
+        const email = document.getElementById('email').value;
+        const gapInterest = document.getElementById('gapInterest').value;
+        const frameworkCompliance = document.getElementById('frameworkCompliance').value;
+        const frameworkDetails = document.getElementById('frameworkDetails').value;
+        const q2 = document.getElementById('q2').value;
+        const q2Comments = document.getElementById('q2Comments').value;
+        const q3 = document.getElementById('q3').value;
+        const q3Comments = document.getElementById('q3Comments').value;
+        const q4 = document.getElementById('q4').value;
+        const q4Comments = document.getElementById('q4Comments').value;
+
+        console.log("Captured Data", {
+            name,
+            companyName,
+            numberOfUsers,
+            email,
+            gapInterest,
+            frameworkCompliance,
+            frameworkDetails,
+            q2,
+            q2Comments,
+            q3,
+            q3Comments,
+            q4,
+            q4Comments
+        });
+
+        // Redirect to Control 2 page
+        window.location.href = "https://vandalcreative.wixsite.com/clearmap/cis-control-2";
+    }
+</script>
+
 
         // Capture and log form data
         const name = document.getElementById('name').value;
